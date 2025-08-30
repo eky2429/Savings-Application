@@ -1,35 +1,30 @@
 # Savings project script
-standard_setting = [0.5, 0.3, 0.2]
-other_setting = [0.5, 0.1, 0.4]
-
-settings = [standard_setting, other_setting]
-
-
-needs : float = 0.5
-wants : float = 0.1
-savings : float = 0.4
-
-results : list = []
-
-current_setting : int = 0
+settings: dict = {}
+current_setting : str = ""
+TAB = "   "
 
 def process_input(s: float):
+    global settings
+    global current_setting
+    results : dict = {}
+
+    cur_set_data : dict= settings[current_setting]
+
     #calculates value based on settings
-    for col in settings[current_setting]:
-        results.append(col * s)
+    for key in cur_set_data.keys(): #pair = {key: val}
+        results[key] = cur_set_data[key] * s
 
     print("\nResults:")
     total: float = 0.0
-    for i in range(0, len(results)):
+    for key in results.keys():
         #Rounds each value
-        results[i] = round(results[i], 2)
-        total += results[i]
+        results[key] = round(results[key], 2)
+        total += results[key]
     #Round total because chance computer calculates extra decimal
     total = round(total, 2)
 
-    print("Needs: " + str(results[0]))
-    print("Wants: " + str(results[1]))
-    print("Savings: " + str(results[2]))
+    for key in results.keys():
+        print(key + ": " + str(results[key]))
     print("Is accurate: " + str(total == s))
 
     #Resets data in list
@@ -45,25 +40,85 @@ def prompt_user(question : str) -> bool:
         else:
             print("Invalid input. Try again.")
 
+def print_setting(key : str = ""):
+    global current_setting
+    global settings
+    global TAB
+    if key:
+        print(key)
+    else:
+        print(current_setting)
+        cur_set_data : dict = settings[current_setting] #{}
+        for key in cur_set_data.keys():
+            print(TAB + key + ": " + str(cur_set_data[key]))
+
 #Handles settings to adjusting how much to distribute between needs, wants, and savings
-def settings():
-    print("This is your current setting: setting "  + str(current_setting))
+def prompt_settings():
+    global current_setting
+    global settings
+
+    print("This is your current setting: ")
+    print_setting()
+
     if prompt_user("Do you wish to change your setting? (y/n): "):
+        print("Okay, which setting would you like to use?")
+        print("Here are the options: " + str(list(settings.keys())))
         while True:
-            num = int(input("Okay, which setting would you like to use? (0 or 1): "))
-            if num < 0 or num >= len(settings):
-                print("Invalid number. Try again!")
+            new_setting = input("Your option: ")
+            if new_setting not in settings.keys():
+                print("Invalid setting. Try again!")
             else:
+                current_setting = new_setting
                 print("Excellent!")
-                current_setting = num
-                print("This is your current setting: setting "  + str(current_setting))
+                print("This is your current setting: "  + str(current_setting))
                 break
     else:
         print("I understand.")
         print("Let us continue!")
 
+#Parses individual line
+    #Assumes that the "sep" is part of "line"
+def parse_line(line : str)-> tuple:
+    sep = ": "
+    part_list = list(line.partition(sep))
+    for i in range(0, part_list.__len__()):
+        part_list[i] = part_list[i].replace("\n", "")
+    return (part_list[0], float(part_list[2]))
+
+#Parses data from script
+def parse_data() -> None:
+    global current_setting
+    file = open("presets.txt", "r")
+    lines : list[str] = file.readlines()
+    heading_str : str= "Heading: "
+    cur_key : str= ""
+
+    for line in lines:
+        if line.__contains__(heading_str): #This is the setting key
+            cur_key = (line.removeprefix(heading_str)).removesuffix("\n")
+            if not current_setting:
+                current_setting = cur_key
+        elif line == "\n":
+            continue
+        else:
+            value : tuple = parse_line(line)
+            key1 : str = value[0]
+            val1 : float = value[1]
+
+            if cur_key in settings.keys():
+                (settings[cur_key])[key1] = val1
+            else:
+                settings[cur_key] = {key1: val1}
+
+    file.close()
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    #Parses data from script
+    parse_data()
+    print("Done parsing!", settings)
+
+
     #Greet user
     print("Hello, user!")
     print("This is the savings program")
@@ -72,10 +127,11 @@ if __name__ == '__main__':
 
     while True:
         #Give user option to adjust settings
-        settings()
+        print(current_setting)
+        prompt_settings()
 
         #User inputs salary
-        salary : float =  float(input("Input: "))
+        salary : float =  float(input("Type in your salary: "))
         
         #Results are printed
         process_input(salary)

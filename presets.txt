@@ -1,0 +1,9 @@
+Heading: Standard Setting
+Needs: 0.5
+Wants: 0.3
+Savings: 0.2
+
+Heading: Setting 2
+Needs: 0.5
+Wants: 0.1
+Savings: 0.4
