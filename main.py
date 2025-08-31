@@ -91,6 +91,7 @@ def parse_data() -> None:
     file = open("presets.txt", "r")
     lines : list[str] = file.readlines()
     heading_str : str= "Heading: "
+    def_set_str : str= "Default setting: "
     cur_key : str= ""
 
     for line in lines:
@@ -98,9 +99,15 @@ def parse_data() -> None:
             cur_key = (line.removeprefix(heading_str)).removesuffix("\n")
             if not current_setting:
                 current_setting = cur_key
+        elif line.__contains__(def_set_str): #This is the default setting
+            print("def")
+            def_set = (line.removeprefix(def_set_str)).removesuffix("\n")
+            if def_set.__len__() >= 3 and def_set in settings.keys(): #Min req. for a setting name
+                print("Def 2")
+                current_setting = def_set
         elif line == "\n":
             continue
-        else:
+        else: #This is a specific column for a setting
             value : tuple = parse_line(line)
             key1 : str = value[0]
             val1 : float = value[1]

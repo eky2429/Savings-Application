@@ -7,3 +7,5 @@ Heading: Setting 2
 Needs: 0.5
 Wants: 0.1
 Savings: 0.4
+
+Default setting: Setting 2
