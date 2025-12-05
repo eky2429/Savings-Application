@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(label)
         self.rule_selector = QComboBox()
         self.rule_selector.addItem("Select rule...")
-        self.rule_selector.addItems(prebuilt_rules.keys())
+        self.refresh_dropdown()
         layout.addWidget(self.rule_selector)
 
         # Connect the QComboBox's currentTextChanged signal to a slot
@@ -53,8 +53,6 @@ class MainWindow(QMainWindow):
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
-
-        # self.refresh_dropdown()
 
     """Called when button is clicked
     - Verifies salary input is correct
