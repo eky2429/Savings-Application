@@ -18,7 +18,7 @@ class SettingsDialog(QDialog):
         self.setWindowTitle("Custom Rule Settings")
 
         #Stores the bins in the array
-        self.bins = []  # list of (name_input, percent_input)
+        self.bins : list = []  # list of (name_input, percent_input)
 
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)

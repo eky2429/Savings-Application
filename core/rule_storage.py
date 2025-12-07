@@ -3,7 +3,6 @@ import os
 
 CUSTOM_RULES_FILE = os.path.join("data", "custom_rules.json")
 
-
 def ensure_file_exists():
     os.makedirs("data", exist_ok=True)
 
@@ -46,3 +45,6 @@ def delete_custom_rule(name: str):
         del rules[name]
         with open(CUSTOM_RULES_FILE, "w") as f:
             json.dump(rules, f, indent=4)
+
+
+custom_rules = load_custom_rules()
