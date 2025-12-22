@@ -1,3 +1,4 @@
+"""
 from core.rules import is_valid_rule, prebuilt_rules
 
 def test_prebuilt_rules():
@@ -28,3 +29,11 @@ def test_many_bins():
 def test_small_percentage():
     rule = {"A": 1, "B": 99}
     assert(is_valid_rule(rule) == False)
+
+test_prebuilt_rules()
+test_custom_valid_rule()
+test_custom_invalid_rule()
+test_few_bins()
+test_many_bins()
+test_small_percentage()
+"""

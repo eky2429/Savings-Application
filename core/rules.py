@@ -5,8 +5,9 @@ prebuilt_rules = {
     "50/10/40": {"Needs": 50, "Wants": 10, "Savings": 40},
 }
 
+"""
 def is_valid_rule(rule: dict) -> bool:
-    """Ensure percentages sum to 100 and values are ints."""
+    #Ensure percentages sum to 100 and values are ints.
 
     #Checks if rule is a dictionary; if not, then we return false
     if not isinstance(rule, dict):
@@ -17,3 +18,4 @@ def is_valid_rule(rule: dict) -> bool:
 
 def get_rule(name: str):
     return prebuilt_rules.get(name)
+"""

@@ -3,7 +3,9 @@ import os
 
 CUSTOM_RULES_FILE = os.path.join("data", "custom_rules.json")
 
-def ensure_file_exists():
+def ensure_file_exists(filepath = CUSTOM_RULES_FILE):
+    global CUSTOM_RULES_FILE
+    CUSTOM_RULES_FILE = filepath
     os.makedirs("data", exist_ok=True)
 
     # If file missing or blank → rewrite with {}

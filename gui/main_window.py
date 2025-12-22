@@ -1,3 +1,4 @@
+from PyQt6 import QtCore
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QLineEdit, QComboBox, QLabel
 from core.calculation import calculate_allocations
@@ -50,6 +51,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.calc_button)
 
         self.output_label :QLabel = QLabel("Bin results will appear here...")
+        self.output_label.setTextInteractionFlags(QtCore.Qt.TextInteractionFlag.TextSelectableByMouse)
         self.output_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.output_label)
 
